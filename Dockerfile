@@ -11,5 +11,10 @@ COPY . /app
 COPY requirements.txt /app/
 RUN pip install -r requirements.txt
 
+# 設置環境變數（您可以在運行容器時覆蓋它們）
+ENV PTT_ID=your_PTT_ID
+ENV PTT_PW=your_PTT_PW
+ENV PTTAUTOLOGIN_LINE_TOKEN=your_LINE_TOKEN
+
 # 執行 Python 程式
 CMD ["python", "main.py"]
