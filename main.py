@@ -7,6 +7,13 @@ import schedule
 from notify import send_line_notify
 from datetime import datetime
 import pytz
+# Check if we are in a Docker environment
+IN_DOCKER = os.environ.get('IN_DOCKER', 'False').lower() == 'true'
+
+# If not in Docker (i.e., in Windows), load environment variables from .env file
+if not IN_DOCKER:
+    from dotenv import load_dotenv
+    load_dotenv()
 
 def initialize():
     """Initialize the environment and notify the start of the program."""
