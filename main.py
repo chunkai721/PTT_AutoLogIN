@@ -7,13 +7,11 @@ import schedule
 from notify import send_line_notify
 from datetime import datetime
 import pytz
-# Check if we are in a Docker environment
-IN_DOCKER = os.environ.get('IN_DOCKER', 'False').lower() == 'true'
 
-# If not in Docker (i.e., in Windows), load environment variables from .env file
-if not IN_DOCKER:
-    from dotenv import load_dotenv
-    load_dotenv()
+# Initialize environment variables
+ptt_id = os.environ.get('PTT_ID')
+ptt_pw = os.environ.get('PTT_PW')
+YOUR_LINE_TOKEN = os.environ.get('PTTAUTOLOGIN_LINE_TOKEN')
 
 def initialize():
     """Initialize the environment and notify the start of the program."""
@@ -28,13 +26,13 @@ def run_bot():
         ptt_bot.login(ptt_id=ptt_id, ptt_pw=ptt_pw, kick_other_session=False)
         send_line_notify("PTT AutoLogin執行完畢", YOUR_LINE_TOKEN)
     except PyPtt.LoginError:
-        print('登入失敗')
+        send_line_notify('登入失敗', YOUR_LINE_TOKEN)
     except PyPtt.WrongIDorPassword:
-        print('帳號密碼錯誤')
+        send_line_notify('帳號密碼錯誤', YOUR_LINE_TOKEN)
     except PyPtt.OnlySecureConnection:
-        print('只能使用安全連線')
+        send_line_notify('只能使用安全連線', YOUR_LINE_TOKEN)
     except PyPtt.ResetYourContactEmail:
-        print('請先至信箱設定連絡信箱')
+        send_line_notify('請先至信箱設定連絡信箱', YOUR_LINE_TOKEN)
     finally:
         ptt_bot.logout()
 
@@ -62,10 +60,5 @@ def main():
         time.sleep(60)  # Check every minute
 
 if __name__ == "__main__":
-    # Environment variables
-    ptt_id = os.environ.get('PTT_ID')
-    ptt_pw = os.environ.get('PTT_PW')
-    YOUR_LINE_TOKEN = os.environ.get('PTTAUTOLOGIN_LINE_TOKEN')
-
     initialize()
     main()
