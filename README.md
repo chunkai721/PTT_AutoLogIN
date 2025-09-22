@@ -1,20 +1,18 @@
 PTT AutoLogin 功能說明文件
 1. 簡介
-PTT AutoLogin 是一個自動登入 PTT 的 Python 程式。它使用 PyPtt 庫來進行登入操作，並利用 LINE Notify 通知用戶程式的啟動和每次執行的結果。
+PTT AutoLogin 是一個自動登入 PTT 的 Python 程式。它使用 PyPtt 庫來進行登入操作，並在每日隨機時間執行一次。
 
 2. 主要功能
 自動登入: 程式會使用提供的 PTT 帳號和密碼自動登入。
-LINE 通知: 程式啟動時和每次執行完畢後，都會通過 LINE Notify 通知用戶。
-排程執行: 程式設定為每天 UTC 22:00 (即 UTC+8 的早上 6 點) 自動執行。
+排程執行: 程式設定為每天「隨機時間」自動執行；每日 00:00（台北時間）會重新抽隔天隨機時間。
 3. 環境變數
 程式使用以下環境變數：
 
 PTT_ID: PTT 的帳號。
 PTT_PW: PTT 的密碼。
-PTTAUTOLOGIN_LINE_TOKEN: LINE Notify 的權杖。
 4. 使用方法
 確保已安裝所有必要的 Python 套件。
-設定上述環境變數。
+可使用系統環境變數或於專案根目錄建立 `.env` 檔，程式會自動載入。
 執行程式。
 5. 錯誤處理
 程式包含以下錯誤處理機制：
@@ -29,5 +27,15 @@ PTTAUTOLOGIN_LINE_TOKEN: LINE Notify 的權杖。
 PyPtt: 用於 PTT 的登入操作。
 nest_asyncio: 用於解決異步操作中的嵌套事件循環問題。
 schedule: 用於排程自動執行功能。
+logging: 產生日誌（主控台與每日輪替檔案）。
+
+7. .env 範例
+在專案根目錄建立 `.env` 檔：
+```
+PTT_ID=your_ptt_id
+PTT_PW=your_ptt_password
+LOG_DIR=logs
+LOG_LEVEL=INFO
+```
 os: 用於讀取環境變數。
 time: 用於延遲操作。

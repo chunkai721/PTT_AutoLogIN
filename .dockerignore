@@ -1,4 +1,15 @@
 __pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+.env
+logs/
+.git
+.gitignore
+.DS_Store
+Thumbs.db
+__pycache__/
 venv/
 *.tar
 .env
